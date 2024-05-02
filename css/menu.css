@@ -11,6 +11,9 @@ body {
     background-color: #EBDFE3;
     justify-content: space-around;
     text-decoration: none;
+    position: fixed;
+    top: 0;
+    z-index: 100;
 }
 
 .value {
