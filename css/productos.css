@@ -31,6 +31,7 @@ div.polaroid:hover {
     align-items: center;
     justify-content: space-around;
     padding: 60px 40px 5px;    
+    margin-top: 40px;
 }
 
 .descripcion{

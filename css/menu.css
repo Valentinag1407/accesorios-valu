@@ -7,10 +7,13 @@ body {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 50px;
+    height: 70px;
     background-color: #EBDFE3;
     justify-content: space-around;
     text-decoration: none;
+    position: fixed;
+    top: 0;
+    z-index: 100;
 }
 
 .value {
@@ -24,7 +27,8 @@ body {
     cursor: pointer;
     border-radius: 4px;
     transition: all 0.2s ease;
-    font-size: 15px;
+    font-size: 18px;
+    align-items: center;
 }
 
 .value:not(:active):hover,
