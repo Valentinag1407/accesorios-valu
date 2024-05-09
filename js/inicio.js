@@ -26,3 +26,10 @@ function showSlides(n) {
   slides[slideIndex-1].style.display = "block";
   dots[slideIndex-1].className += " active";
 }
+//boton de redes
+const floatingButton = document.getElementById('floatingButton');
+const iconosRedes = document.querySelector('.iconos-redes');
+
+floatingButton.addEventListener('click', () => {
+  iconosRedes.classList.toggle('show');
+});
