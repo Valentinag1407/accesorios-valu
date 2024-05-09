@@ -338,10 +338,10 @@ hr {
 }
 
 .form label {
-    position: relative;
+    position:relative;
 }
 
-.form label .input {
+.form label .input-form {
     background-color: #ebebeb;
     color: #000000;
     width: 100%;
@@ -351,9 +351,9 @@ hr {
     border-radius: 10px;
 }
 
-.form label .input+span {
+.form label .input-form+span {
     color: rgba(0, 0, 0, 0.5);
-    position: absolute;
+    position:absolute;
     left: 10px;
     top: 0px;
     font-size: 0.9em;
@@ -361,20 +361,20 @@ hr {
     transition: 0.3s ease;
 }
 
-.form label .input:placeholder-shown+span {
+.form label .input-form:placeholder-shown+span {
     top: 12.5px;
     font-size: 0.9em;
 }
 
-.form label .input:focus+span,
-.form label .input:valid+span {
+.form label .input-form:focus+span,
+.form label .input-form:valid+span {
     color: #573943;
     top: 0px;
     font-size: 0.7em;
     font-weight: 600;
 }
 
-.input {
+.input-form {
     font-size: medium;
 }
 

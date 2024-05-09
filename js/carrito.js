@@ -254,7 +254,6 @@ document.getElementById("formCompra").addEventListener("submit", function (event
     - Barrio: ${barrio}
     - Dirección: ${direccion}
     - Telefono: ${telefono}`);
-   
 
     // Restablecer el formulario para limpiar todos los campos
     document.getElementById("formCompra").reset();
