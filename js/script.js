@@ -9,7 +9,7 @@ document.getElementById("login").addEventListener("submit", function (event) {
     if (correo === "majo10@gmail.com" && password === "majo123") {
         // Inicio de sesión exitoso
         alert("Inicio de sesión exitoso. ¡Bienvenido!");
-        window.location.href = "html/inicio.html";
+        window.location.href = "/index.html";
     } else {
         // Credenciales incorrectas
         alert("Correo electrónico o contraseña incorrectos. Por favor, inténtalo de nuevo.");
