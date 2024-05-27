@@ -175,9 +175,6 @@ div.polaroid:hover {
 
 .text {
     font-size: 24px;
-
-
-
     transform: translate(-50%, -50%);
 }
 
@@ -188,32 +185,21 @@ div.polaroid:hover {
         url("/img/aretes.jpg");
     background-size: cover;
     background-attachment: fixed;
-    background-position: center center;
+    background-position: center;
     color: #fff;
-    margin: 30px 0px 50px 0px;
-    height: 500px
-}
-
-.habilidades .contenido-seccion {
-    max-width: 1000px;
-    margin: auto;
-    padding: 0 10px;
+    height: 500px;
 }
 
 .habilidades .contenido-seccion h3 {
     text-transform: uppercase;
     font-size: 40px;
 }
-
-.habilidades .contenido-seccion .fila {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-}
-
-.habilidades .contenido-seccion .fila .col {
-    width: 55%;
-    text-align: left;
+.col{
+    width: 1140px;
+    margin: 0 auto 0 auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    font-size: 20px;
 }
 
 .frase {
