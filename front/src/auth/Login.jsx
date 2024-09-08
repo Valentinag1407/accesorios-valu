@@ -1,13 +1,23 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api/axiosConfig";
 import { Input } from "../atoms/Input";
 import { CiLock, CiUser } from "react-icons/ci";
+import { ValuContext } from "../context/ValuContext";
+import { showToast } from "../utils/toast";
 
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setUsuario } = useContext(ValuContext);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,10 +26,16 @@ export const Login = () => {
         username,
         password,
       });
+      setUsuario({
+        is_admin: response.data.is_admin,
+        username: response.data.username,
+        email: response.data.email,
+      });
       localStorage.setItem("token", response.data.access);
       navigate("/");
     } catch (error) {
       console.error("Error logging in:", error);
+      showToast(error.response.data?.detail, "error");
     }
   };
 

@@ -1,5 +1,5 @@
-import { NavBar } from "../components/NavBar";
+import { LayoutNavFoo } from "../layouts/LayoutNavFoo";
 
 export const Home = () => {
-  return <NavBar />;
+  return <LayoutNavFoo></LayoutNavFoo>;
 };

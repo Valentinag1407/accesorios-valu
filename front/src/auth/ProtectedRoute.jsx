@@ -5,11 +5,10 @@ import { checkAuth } from "./validateAuth";
 
 export const ProtectedRoute = ({ element: Component }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-
   useEffect(() => {
     const verifyAuth = async () => {
       const result = await checkAuth();
-      setIsAuthenticated(result);
+      setIsAuthenticated(result.user);
     };
 
     verifyAuth();

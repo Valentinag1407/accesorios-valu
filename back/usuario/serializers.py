@@ -31,3 +31,12 @@ class RegisterSerializer(serializers.ModelSerializer):
             rol=validated_data.get('rol', None)
         )
         return user
+
+class UserSerializer(serializers.ModelSerializer):
+    is_admin = serializers.BooleanField(source='is_superuser')
+
+    class Meta:
+        model = User  # O tu modelo personalizado
+        fields = ['username', 'email', 'is_admin']
+
+

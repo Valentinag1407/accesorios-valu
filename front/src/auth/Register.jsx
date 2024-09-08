@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Input } from "../atoms/Input";
 import { CiUser, CiMail, CiLock, CiPhone, CiHome } from "react-icons/ci";
 import { api } from "../api/axiosConfig";
-import { Alert } from "../atoms/Alert";
+import { ValuContext } from "../context/ValuContext";
+import { showToast } from "../utils/toast";
 
 export const Register = () => {
   const [username, setUsername] = useState("");
@@ -21,8 +22,8 @@ export const Register = () => {
   const [departamentos, setDepartamentos] = useState([]);
   const [ciudades, setCiudades] = useState([]);
   const [passwordError, setPasswordError] = useState("");
-  const [alert, setAlert] = useState(false);
   const navigate = useNavigate();
+  const { setUser } = useContext(ValuContext);
 
   useEffect(() => {
     const fetchDepartamentos = async () => {
@@ -60,12 +61,6 @@ export const Register = () => {
     fetchCiudades();
   }, [departamento]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setAlert(false);
-    }, 3000);
-  }, [alert]);
-
   const handleDepartamentoChange = (e) => {
     const selectedDepartamento = parseInt(e.target.value);
     const departamento = departamentos.find(
@@ -99,28 +94,22 @@ export const Register = () => {
           rol: 2,
         })
         .then((response) => {
-          console.log(response);
+          setUser(response.data.user);
           localStorage.setItem("token", response.data.access);
           navigate("/");
+          showToast("Usuario registrado exitosamente", "success");
         })
         .catch((error) => {
-          console.log(error);
-          setAlert(true);
+          showToast(error.response.data?.detail, "error");
         });
     } catch (error) {
+      showToast(error.response.data?.detail, "error");
       console.error("Error registering:", error);
     }
   };
 
   return (
     <div className="flex justify-center min-h-screen items-center py-10 px-5 bg-pink-100">
-      {alert && (
-        <Alert
-          message="Hubo un error al registrar el usuario. Por favor, intenta de nuevo."
-          type="error"
-          onClose={() => setAlert(false)}
-        />
-      )}
       <div className="w-full max-w-4xl p-8 bg-white shadow-lg rounded-lg">
         <div className="flex flex-col gap-2 justify-center items-center mb-10 w-4/5 my-0 mx-auto">
           <a
