@@ -30,6 +30,7 @@ export const Login = () => {
         is_admin: response.data.is_admin,
         username: response.data.username,
         email: response.data.email,
+        id: response.data.user_id,
       });
       localStorage.setItem("token", response.data.access);
       navigate("/");
@@ -47,7 +48,7 @@ export const Login = () => {
             href="/"
             className="flex justify-center border-2 box-border w-20 h-20 bg-gradient-to-b from-gray-100 via-transparent to-gray-100 rounded-md border-gray-100"
           >
-            <img src="./img/logo.png" alt="Logo" className="w-20 h-20" />
+            <img src="/img/logo.png" alt="Logo" className="w-20 h-20" />
           </a>
           <h2 className="text-xl font-bold text-center">
             Inicia sesión en tu cuenta

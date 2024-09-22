@@ -36,7 +36,12 @@ class UserSerializer(serializers.ModelSerializer):
     is_admin = serializers.BooleanField(source='is_superuser')
 
     class Meta:
-        model = User  # O tu modelo personalizado
-        fields = ['username', 'email', 'is_admin']
+        model = User
+        fields = ['username', 'email', 'is_admin', 'id']
+        
+class UserSerializerPedido(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ['barrio', 'celular', 'ciudad', 'departamento', 'direccion', 'email', 'estado', 'first_name', 'id', 'last_name', 'username']
 
 

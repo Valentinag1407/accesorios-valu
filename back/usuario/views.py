@@ -7,11 +7,10 @@ from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from carrito.models import Carrito
 
 User = get_user_model()
 
@@ -24,12 +23,15 @@ class RegisterView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+        Carrito.objects.create(usuario=user)
+
         refresh = RefreshToken.for_user(user)
-        
+
         user_data = {
             'is_admin': user.is_superuser,
             'email': user.email,
             'username': user.username,
+            'user_id': user.id
         }
 
         return Response({
@@ -53,10 +55,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        
         token['is_admin'] = user.is_superuser
         token['email'] = user.email
         token['username'] = user.username
+        token['user_id'] = user.id
 
         return token
 
@@ -66,9 +68,11 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             'is_admin': self.user.is_superuser,
             'email': self.user.email,
             'username': self.user.username,
+            'user_id': self.user.id,
         })
         return data
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
 

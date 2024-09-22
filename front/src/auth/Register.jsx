@@ -22,9 +22,9 @@ export const Register = () => {
   const [departamentos, setDepartamentos] = useState([]);
   const [ciudades, setCiudades] = useState([]);
   const [passwordError, setPasswordError] = useState("");
+  const [validationErrors, setValidationErrors] = useState({});
   const navigate = useNavigate();
-  const { setUser } = useContext(ValuContext);
-
+  const { setUsuario } = useContext(ValuContext);
   useEffect(() => {
     const fetchDepartamentos = async () => {
       try {
@@ -70,40 +70,66 @@ export const Register = () => {
     setCiudad("");
   };
 
+  const validateFields = () => {
+    let errors = {};
+
+    if (!/^[a-zA-Z]+$/.test(firstName)) {
+      errors.firstName = "El nombre solo debe contener letras.";
+    }
+
+    if (!/^[a-zA-Z]+$/.test(lastName)) {
+      errors.lastName = "El apellido solo debe contener letras.";
+    }
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      errors.email = "El email no tiene un formato válido.";
+    }
+
+    if (!/^\d{10}$/.test(celular)) {
+      errors.celular = "El celular debe tener 10 dígitos.";
+    }
+
+    if (direccion.length < 5) {
+      errors.direccion = "La dirección debe tener al menos 5 caracteres.";
+    }
+
+    if (password !== confirmPassword) {
+      errors.confirmPassword = "Las contraseñas no coinciden.";
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      setPasswordError("Las contraseñas no coinciden");
+
+    if (!validateFields()) {
+      showToast("Por favor, corrige los errores en el formulario.", "error");
       return;
     }
-    setPasswordError("");
+
     try {
-      await api
-        .post("api/register/", {
-          username,
-          email,
-          password,
-          first_name: firstName,
-          last_name: lastName,
-          celular,
-          direccion,
-          estado: 1,
-          departamento: departamento?.name,
-          ciudad,
-          barrio,
-          rol: 2,
-        })
-        .then((response) => {
-          setUser(response.data.user);
-          localStorage.setItem("token", response.data.access);
-          navigate("/");
-          showToast("Usuario registrado exitosamente", "success");
-        })
-        .catch((error) => {
-          showToast(error.response.data?.detail, "error");
-        });
+      const response = await api.post("api/register/", {
+        username,
+        email,
+        password,
+        first_name: firstName,
+        last_name: lastName,
+        celular,
+        direccion,
+        estado: 1,
+        departamento: departamento?.name,
+        ciudad,
+        barrio,
+        rol: 2,
+      });
+      setUsuario(response.data.user);
+      localStorage.setItem("token", response.data.access);
+      navigate("/");
+      showToast("Usuario registrado exitosamente", "success");
     } catch (error) {
-      showToast(error.response.data?.detail, "error");
+      showToast("Error registrando el usuario", "error");
       console.error("Error registering:", error);
     }
   };
@@ -116,7 +142,7 @@ export const Register = () => {
             href="/"
             className="flex justify-center border-2 box-border w-20 h-20 bg-gradient-to-b from-gray-100 via-transparent to-gray-100 rounded-md border-gray-100"
           >
-            <img src="./img/logo.png" alt="Logo" className="w-20 h-20" />
+            <img src="/img/logo.png" alt="Logo" className="w-20 h-20" />
           </a>
           <h2 className="text-xl font-bold text-center">Registrate</h2>
           <p className="text-gray-500 text-center text-sm">
@@ -133,7 +159,9 @@ export const Register = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              error={validationErrors.username}
             />
+
             <Input
               label="Email: "
               placeholder="jhon@doe.com"
@@ -141,7 +169,9 @@ export const Register = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              error={validationErrors.email}
             />
+
             <Input
               label="Nombre: "
               placeholder="Jhon"
@@ -149,7 +179,9 @@ export const Register = () => {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               required
+              error={validationErrors.firstName}
             />
+
             <Input
               label="Apellido: "
               placeholder="Doe"
@@ -157,7 +189,9 @@ export const Register = () => {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               required
+              error={validationErrors.lastName}
             />
+
             <Input
               label="Celular: "
               placeholder="310000000"
@@ -166,6 +200,7 @@ export const Register = () => {
               value={celular}
               onChange={(e) => setCelular(e.target.value)}
               required
+              error={validationErrors.celular}
             />
             <Input
               label="Dirección: "
@@ -174,7 +209,9 @@ export const Register = () => {
               value={direccion}
               onChange={(e) => setDireccion(e.target.value)}
               required
+              error={validationErrors.direccion}
             />
+
             <div className="col-span-1">
               <label
                 className="block text-gray-400 text-xs font-bold mb-1"

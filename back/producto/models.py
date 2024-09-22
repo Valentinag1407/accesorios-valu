@@ -8,6 +8,7 @@ class Producto(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     estado = models.BooleanField(default=True)
     cantidad = models.IntegerField(default=0)
+    isFavorite = models.BooleanField(default=False)
     
     def __str__(self):
         return self.nombre

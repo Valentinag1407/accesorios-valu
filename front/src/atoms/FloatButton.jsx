@@ -9,7 +9,7 @@ export const FloatingButton = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 flex flex-col items-center">
+    <div className="fixed bottom-4 right-4 flex flex-col items-center z-50">
       {isOpen && (
         <a
           href="https://wa.me/message/SPESBROOKCQVA1"

@@ -57,3 +57,17 @@ def product_detail(request, pk=None):
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+@api_view(['GET'])
+def favorites(request):
+    if request.method == 'GET':
+        products = Producto.objects.filter(isFavorite=True)
+        serializer = ProductoSerializer(products, many=True)
+        return Response(serializer.data)
+    
+@api_view(['GET'])
+def getByCategory(request, pk=None):
+    if request.method == 'GET':
+        products = Producto.objects.filter(categoria_id=pk)
+        serializer = ProductoSerializer(products, many=True)
+        return Response(serializer.data)

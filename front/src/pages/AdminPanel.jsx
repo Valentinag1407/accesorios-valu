@@ -5,6 +5,7 @@ import { api } from "../api/axiosConfig";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { showToast } from "../utils/toast";
 import { BiLastPage, BiFirstPage } from "react-icons/bi";
+import { formatearDinero } from "../utils/formatDiner";
 
 export const AdminPanel = () => {
   const [products, setProducts] = useState([]);
@@ -46,11 +47,6 @@ export const AdminPanel = () => {
   const handleEditProduct = (product) => {
     setEditingProduct(product);
   };
-
-  function formatearDinero(digito) {
-    const formateado = digito.toLocaleString("es-ES");
-    return `$${formateado}`;
-  }
 
   const handleDeleteProduct = async (id) => {
     try {
@@ -161,12 +157,11 @@ export const AdminPanel = () => {
           <div className="flex justify-center space-x-2 mt-4">
             <BiFirstPage
               size={40}
-              onClick={() => paginate(currentPage - 1)}
-              disabled={currentPage === 1}
+              onClick={() => currentPage > 1 && paginate(currentPage - 1)}
               className={`p-2 rounded ${
                 currentPage === 1
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-gray-200 text-gray-800"
+                  : "bg-gray-200 text-gray-800 cursor-pointer"
               }`}
             />
 
@@ -188,12 +183,13 @@ export const AdminPanel = () => {
 
             <BiLastPage
               size={40}
-              onClick={() => paginate(currentPage + 1)}
-              disabled={currentPage === totalPages}
+              onClick={() =>
+                currentPage < totalPages && paginate(currentPage + 1)
+              }
               className={`p-2 rounded ${
                 currentPage === totalPages
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-gray-200 text-gray-800"
+                  : "bg-gray-200 text-gray-800 cursor-pointer"
               }`}
             />
           </div>

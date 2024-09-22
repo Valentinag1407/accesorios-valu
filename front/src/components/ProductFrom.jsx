@@ -12,9 +12,10 @@ export const ProductForm = ({ product, onClose }) => {
     estado: "",
     cantidad: "",
     categoria: "",
+    isFavorite: false, // Nuevo campo para isFavorite
   });
   const [categories, setCategories] = useState([]);
-  const { nombre, precio, estado, cantidad, categoria } = formData;
+  const { nombre, precio, estado, cantidad, categoria, isFavorite } = formData;
   const [img, setImg] = useState(null);
 
   const fetchCategories = async () => {
@@ -29,7 +30,7 @@ export const ProductForm = ({ product, onClose }) => {
   useEffect(() => {
     if (product.id) {
       product.estado = product.estado === true ? "1" : "0";
-      setFormData(product);
+      setFormData({ ...product, isFavorite: product.isFavorite || false }); // Asignar isFavorite del producto
       setImg(`${baseURL}${product.imagen}`);
     }
   }, [product]);
@@ -39,7 +40,7 @@ export const ProductForm = ({ product, onClose }) => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
+    const { name, value, type, checked, files } = e.target;
     if (type === "file") {
       const file = files[0];
       if (file) {
@@ -51,7 +52,10 @@ export const ProductForm = ({ product, onClose }) => {
         reader.readAsDataURL(file);
       }
     } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      }));
     }
   };
 
@@ -63,39 +67,23 @@ export const ProductForm = ({ product, onClose }) => {
     formDataToSend.append("estado", formData.estado);
     formDataToSend.append("cantidad", formData.cantidad);
     formDataToSend.append("categoria", parseInt(formData.categoria));
+    formDataToSend.append("isFavorite", formData.isFavorite); // Enviar isFavorite
 
-    if (formData.imagen) {
+    if (formData.imagen && formData.imagen instanceof File) {
       formDataToSend.append("imagen", formData.imagen);
     }
+
     try {
       if (product.id) {
-        await api
-          .put(`/productos/${product.id}/`, formDataToSend, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then(() => {
-            showToast("Producto actualizado exitosamente", "success");
-          })
-          .catch((error) => {
-            showToast(error.response.data?.detail, "error");
-            console.error("Error submitting form:", error);
-          });
+        await api.put(`/productos/products/${product.id}/`, formDataToSend, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        showToast("Producto actualizado exitosamente", "success");
       } else {
-        await api
-          .post("/productos/products/", formDataToSend, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then(() => {
-            showToast("Producto creado exitosamente", "success");
-          })
-          .catch((error) => {
-            showToast(error.response.data?.detail, "error");
-            console.error("Error submitting form:", error);
-          });
+        await api.post("/productos/products/", formDataToSend, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        showToast("Producto creado exitosamente", "success");
       }
       onClose();
     } catch (error) {
@@ -154,7 +142,7 @@ export const ProductForm = ({ product, onClose }) => {
           className="w-full p-2 border border-gray-300 rounded-lg text-lg mb-4 outline-pink-200"
           placeholder="Precio"
         />
-        <label className="block text-sm font-semibold text-gray-600 mb-2 ">
+        <label className="block text-sm font-semibold text-gray-600 mb-2">
           Estado:
         </label>
         <select
@@ -194,6 +182,16 @@ export const ProductForm = ({ product, onClose }) => {
               className="ml-2 p-1 border border-gray-300 rounded-lg outline-pink-200"
             />
           </label>
+        </div>
+        <div className="flex items-center mb-4">
+          <input
+            type="checkbox"
+            name="isFavorite"
+            checked={isFavorite}
+            onChange={handleChange}
+            className="mr-2"
+          />
+          <label className="text-sm text-gray-600">Marcar como favorito</label>
         </div>
         <button
           onClick={handleSubmit}
