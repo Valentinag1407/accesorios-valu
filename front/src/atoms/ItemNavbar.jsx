@@ -9,7 +9,7 @@ export const ItemNavbar = ({ Icon, title, link }) => {
   const handleClick = () => {
     if (title === "Logout") {
       localStorage.removeItem("token");
-      navigate("/");
+      window.location.href = "/";
     } else {
       navigate(link);
     }

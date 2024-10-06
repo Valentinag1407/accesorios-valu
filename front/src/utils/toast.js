@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 
 const defaultOptions = {
-  position: "top-end",
+  position: "bottom-start",
   toast: true,
   showConfirmButton: false,
   timer: 4000,

@@ -14,6 +14,7 @@ export const AdminPanel = () => {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [productToDelete, setProductToDelete] = useState(null);
   const productsPerPage = 5;
 
   const fetchProducts = async () => {
@@ -48,18 +49,31 @@ export const AdminPanel = () => {
     setEditingProduct(product);
   };
 
-  const handleDeleteProduct = async (id) => {
+  const confirmDeleteProduct = (product) => {
+    setProductToDelete(product);
+  };
+
+  const handleDeleteProduct = async () => {
     try {
-      await api.delete(`/productos/products/${id}`);
-      setProducts(products.filter((product) => product.id !== id));
-      setFilteredProducts(
-        filteredProducts.filter((product) => product.id !== id)
+      await api.delete(`/productos/products/${productToDelete.id}/`);
+
+      setProducts(
+        products.filter((product) => product.id !== productToDelete.id)
       );
+      setFilteredProducts(
+        filteredProducts.filter((product) => product.id !== productToDelete.id)
+      );
+
+      setProductToDelete(null);
       showToast("Producto eliminado exitosamente", "success");
     } catch (error) {
       showToast(error.response.data?.detail, "error");
       console.error("Error deleting product:", error);
     }
+  };
+
+  const handleCancelDelete = () => {
+    setProductToDelete(null);
   };
 
   const handleSearch = (e) => {
@@ -139,7 +153,7 @@ export const AdminPanel = () => {
                         />
                         <MdDelete
                           className="text-red-500 cursor-pointer hover:text-red-700"
-                          onClick={() => handleDeleteProduct(product.id)}
+                          onClick={() => confirmDeleteProduct(product)}
                         />
                       </div>
                     </td>
@@ -200,6 +214,31 @@ export const AdminPanel = () => {
             product={editingProduct}
             onClose={() => setEditingProduct(null)}
           />
+        )}
+
+        {productToDelete && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white rounded-lg p-6 shadow-lg">
+              <h2 className="text-xl font-semibold mb-4">
+                ¿Eliminar {productToDelete.nombre}?
+              </h2>
+              <p className="mb-4">Esta acción no se puede deshacer.</p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                  onClick={handleCancelDelete}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  onClick={handleDeleteProduct}
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </LayoutNavFoo>

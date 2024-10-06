@@ -45,7 +45,7 @@ export const NavBar = () => {
               title="Sobre Nosotros"
               link="/About"
             />
-            {usuario?.is_admin && (
+            {usuario?.is_admin ? (
               <>
                 <ItemNavbar Icon={FaUser} title="Admin" link="/admin" />
                 <ItemNavbar
@@ -54,16 +54,15 @@ export const NavBar = () => {
                   link="/Pedidos"
                 />
               </>
+            ) : (
+              <ItemNavbar
+                Icon={FaShoppingCart}
+                title="Carrito"
+                link="/Carrito"
+              />
             )}
             {usuario ? (
-              <>
-                <ItemNavbar
-                  Icon={FaShoppingCart}
-                  title="Carrito"
-                  link="/Carrito"
-                />
-                <ItemNavbar Icon={IoExitSharp} title="Logout" link="/" />
-              </>
+              <ItemNavbar Icon={IoExitSharp} title="Logout" link="/" />
             ) : (
               <ItemNavbar Icon={FaUser} title="Login" link="/login" />
             )}

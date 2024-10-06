@@ -94,7 +94,7 @@ export const ProductForm = ({ product, onClose }) => {
 
   return ReactDOM.createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 overflow-auto">
-      <div className="relative flex flex-col w-full max-w-sm mx-auto bg-white shadow-lg rounded-lg border border-gray-300 p-4">
+      <div className="max-h-[95vh] overflow-auto relative flex flex-col w-full max-w-sm mx-auto bg-white shadow-lg rounded-lg border border-gray-300 p-4">
         <IoMdCloseCircle
           size={24}
           className="absolute top-4 right-4 text-pink-500 hover:text-pink-700 cursor-pointer"

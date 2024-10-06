@@ -31,6 +31,7 @@ export const Favoritos = () => {
             link={`/productos/${favorito.categoria.nombre}`}
             precio={favorito.precio}
             cantidad={favorito.cantidad}
+            carrito={true}
           />
         ))}
       </div>

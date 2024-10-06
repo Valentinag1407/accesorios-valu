@@ -1,10 +1,9 @@
 # myapp/serializers.py
 from rest_framework import serializers
 from .models import Producto
-from categoria.serializers import CategoriaSerializer
+from categoria.models import Categoria
 
 class ProductoSerializer(serializers.ModelSerializer):
-    categoria = CategoriaSerializer() 
 
     class Meta:
         model = Producto

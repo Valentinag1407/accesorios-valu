@@ -15,7 +15,7 @@ export const CardProduct = ({
   cantidad: cantidadTotal,
   carrito: carritoState = false,
 }) => {
-  const { idCarrito, carrito, setAdd } = useContext(ValuContext);
+  const { idCarrito, carrito, setAdd, usuario } = useContext(ValuContext);
   const { items } = carrito;
   const navigate = useNavigate();
   const [cantidad, setCantidad] = useState(1);
@@ -46,6 +46,19 @@ export const CardProduct = ({
   }, [addedToCart, cantidad, idCarrito, id, setAdd]);
 
   const addToCart = async () => {
+    if (!usuario) {
+      showToast(
+        "Debes iniciar sesión para agregar un producto al carrito",
+        "error"
+      );
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+
+      return;
+    }
+
     try {
       const response = await api.post("/items_carrito/create/", {
         carrito_id: idCarrito,

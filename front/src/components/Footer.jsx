@@ -42,22 +42,22 @@ const Footer = () => {
           <h2 className="font-bold text-lg mb-4">Categorías:</h2>
           <ul>
             <li>
-              <a href="#" className="hover:underline">
+              <a href="/productos/Aretes" className="hover:underline">
                 Aretes
               </a>
             </li>
             <li>
-              <a href="#" className="hover:underline">
+              <a href="/productos/Collares" className="hover:underline">
                 Collares
               </a>
             </li>
             <li>
-              <a href="#" className="hover:underline">
+              <a href="/productos/Manillas" className="hover:underline">
                 Manillas
               </a>
             </li>
             <li>
-              <a href="#" className="hover:underline">
+              <a href="/productos/Earcuffs" className="hover:underline">
                 Earcuff
               </a>
             </li>
