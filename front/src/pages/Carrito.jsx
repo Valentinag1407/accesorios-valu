@@ -83,6 +83,7 @@ export const Carrito = () => {
     form.action = import.meta.env.VITE_URL_PAYU;
 
     for (const key in formData) {
+      // eslint-disable-next-line no-prototype-builtins
       if (formData.hasOwnProperty(key)) {
         const hiddenField = document.createElement("input");
         hiddenField.type = "hidden";
