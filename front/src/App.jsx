@@ -12,6 +12,7 @@ import { Categoria } from "./components/Categoria";
 import { About } from "./pages/About";
 import { Carrito } from "./pages/Carrito";
 import { Pedidos } from "./pages/Pedidos";
+import { Confirmation } from "./pages/Confirmation.JSX";
 
 function App() {
   const { categories } = useContext(ValuContext);
@@ -34,6 +35,7 @@ function App() {
           path="/pedidos"
           element={<ProtectedRoute element={<Pedidos />} />}
         />
+        <Route path="/confirmation" element={<Confirmation />} />
 
         {categories.map(({ id, nombre, descripcion }) => (
           <Route

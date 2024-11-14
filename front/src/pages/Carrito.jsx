@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ValuContext } from "../context/ValuContext";
 import { showToast } from "../utils/toast";
 import { LayoutNavFoo } from "../layouts/LayoutNavFoo";
@@ -6,12 +6,31 @@ import { api, baseURL } from "../api/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { formatearDinero } from "../utils/formatDiner";
 import { IoMdAddCircle, IoMdRemoveCircle } from "react-icons/io";
+import { initialFormData } from "../utils/formData";
+import { calculateMD5 } from "../utils/signature";
+import { generateReferenceCode } from "../utils/referenceCode";
 
 export const Carrito = () => {
-  const { carrito, setCarrito, idCarrito, usuario, setAdd } =
-    useContext(ValuContext);
+  const { carrito, setCarrito, idCarrito, usuario } = useContext(ValuContext);
   const { items } = carrito;
   const navigate = useNavigate();
+  const [formData, setFormData] = useState(initialFormData);
+
+  useEffect(() => {
+    if (formData.amount && formData.currency) {
+      const signature = calculateMD5(
+        import.meta.env.VITE_API_KEY_PAYU,
+        import.meta.env.VITE_MERCHANT_ID_PAYU,
+        formData.referenceCode,
+        formData.amount,
+        formData.currency
+      );
+      setFormData((prevData) => ({
+        ...prevData,
+        signature: signature,
+      }));
+    }
+  }, [formData.amount, formData.currency, formData.referenceCode]);
 
   const updateItemQuantity = (itemId, cantidad) => {
     return api.post("/items_carrito/create/", {
@@ -58,28 +77,23 @@ export const Carrito = () => {
     }
   };
 
-  const handleCheckout = async () => {
-    try {
-      const pedidoResponse = await api.post("/pedidos/create/", {
-        usuario: usuario.id,
-        total: calcularTotal(),
-      });
+  const handleCheckout = () => {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = import.meta.env.VITE_URL_PAYU;
 
-      const { id: pedidoId } = pedidoResponse.data;
-      const itemsData = items.map((item) => ({
-        pedido: pedidoId,
-        producto: item.producto.id,
-        cantidad: item.cantidad,
-        precio: item.producto.precio * item.cantidad,
-      }));
-      await api.post("/detalles_pedido/create/", itemsData);
-      await api.delete(`/items_carrito/delete/${usuario.id}/`);
-      setAdd((prev) => !prev);
-      showToast("Proceso de pago iniciado", "success");
-    } catch (error) {
-      console.error("Error al procesar el pedido:", error);
-      showToast("Error al procesar el pedido", "error");
+    for (const key in formData) {
+      if (formData.hasOwnProperty(key)) {
+        const hiddenField = document.createElement("input");
+        hiddenField.type = "hidden";
+        hiddenField.name = key;
+        hiddenField.value = formData[key];
+        form.appendChild(hiddenField);
+      }
     }
+
+    document.body.appendChild(form);
+    form.submit();
   };
 
   const calcularTotal = () => {
@@ -89,6 +103,19 @@ export const Carrito = () => {
       0
     );
   };
+
+  useEffect(() => {
+    if (!items || !usuario) return;
+    setFormData((prevData) => ({
+      ...prevData,
+      description: items?.map((item) => item.producto.nombre).join(", "),
+      amount: calcularTotal(),
+      buyerEmail: usuario.email,
+      buyerFullName: `${usuario.first_name} ${usuario.last_name}`,
+      telephone: usuario.celular,
+      referenceCode: generateReferenceCode(usuario),
+    }));
+  }, [items]);
 
   return (
     <LayoutNavFoo>
