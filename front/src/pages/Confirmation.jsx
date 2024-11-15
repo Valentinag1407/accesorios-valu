@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { ValuContext } from "../context/ValuContext";
@@ -9,6 +9,7 @@ export const Confirmation = () => {
   const [purchaseData, setPurchaseData] = useState({});
   const [carrito, setCarrito] = useState({});
   const { usuario } = useContext(ValuContext);
+  const [isApproved, setIsApproved] = useState(false)
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -43,10 +44,8 @@ export const Confirmation = () => {
   };
 
   useEffect(() => {
-    console.log("carrito", carrito);
+    setIsApproved(purchaseData.lapTransactionState === "APPROVED")
   }, [purchaseData.lapTransactionState]);
-
-  const isApproved = purchaseData.lapTransactionState === "APPROVED";
 
   useEffect(() => {
     if (!isApproved || !carrito) return;
@@ -75,7 +74,7 @@ export const Confirmation = () => {
     if (isApproved) {
       deleteCart();
     }
-  }, [isApproved]);
+  }, [isApproved, carrito]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-pink-50 p-6">
