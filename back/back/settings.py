@@ -27,7 +27,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.21']
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -135,11 +135,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'usuario.Usuario'
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-    'http://192.168.0.21'
-]
-
+CORS_ALLOW_ALL_ORIGINS = True
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1), 
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
