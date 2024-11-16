@@ -37,15 +37,16 @@ function App() {
         />
         <Route path="/confirmation" element={<Confirmation />} />
 
-        {categories.map(({ id, nombre, descripcion }) => (
-          <Route
-            key={id}
-            path={`/productos/${nombre}`}
-            element={
-              <Categoria id={id} nombre={nombre} descripcion={descripcion} />
-            }
-          />
-        ))}
+        {Array.isArray(categories) &&
+          categories.map(({ id, nombre, descripcion }) => (
+            <Route
+              key={id}
+              path={`/productos/${nombre}`}
+              element={
+                <Categoria id={id} nombre={nombre} descripcion={descripcion} />
+              }
+            />
+          ))}
 
         <Route path="/about" element={<About />} />
 
