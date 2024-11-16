@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { IoMdCloseCircle } from "react-icons/io";
-import { api, baseURL } from "../api/axiosConfig";
+import { api } from "../api/axiosConfig";
 import { showToast } from "../utils/toast";
 
 export const ProductForm = ({ product, onClose }) => {
@@ -31,7 +31,7 @@ export const ProductForm = ({ product, onClose }) => {
     if (product.id) {
       product.estado = product.estado === true ? "1" : "0";
       setFormData({ ...product, isFavorite: product.isFavorite || false }); // Asignar isFavorite del producto
-      setImg(`${baseURL}${product.imagen}`);
+      setImg(`${import.meta.env.VITE_BACK_URL}${product.imagen}`);
     }
   }, [product]);
 

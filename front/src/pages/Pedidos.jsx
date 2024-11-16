@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api, baseURL } from "../api/axiosConfig";
+import { api } from "../api/axiosConfig";
 import { LayoutNavFoo } from "../layouts/LayoutNavFoo";
 
 export const Pedidos = () => {
@@ -89,7 +89,9 @@ export const Pedidos = () => {
                       className="flex items-center mb-2 border-b border-gray-200 py-2"
                     >
                       <img
-                        src={`${baseURL}${detalle.producto.imagen}`}
+                        src={`${import.meta.env.VITE_BACK_URL}${
+                          detalle.producto.imagen
+                        }`}
                         alt={detalle.producto.nombre}
                         className="w-16 h-16 object-cover rounded-lg mr-4"
                       />
