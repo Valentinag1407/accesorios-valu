@@ -31,7 +31,7 @@ export const ProductForm = ({ product, onClose }) => {
     if (product.id) {
       product.estado = product.estado === true ? "1" : "0";
       setFormData({ ...product, isFavorite: product.isFavorite || false }); // Asignar isFavorite del producto
-      setImg(`${import.meta.env.VITE_BACK_URL}${product.imagen}`);
+      setImg(`${import.meta.env.VITE_BACK_URL_PROD}${product.imagen}`);
     }
   }, [product]);
 

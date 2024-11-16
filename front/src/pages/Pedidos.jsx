@@ -89,7 +89,7 @@ export const Pedidos = () => {
                       className="flex items-center mb-2 border-b border-gray-200 py-2"
                     >
                       <img
-                        src={`${import.meta.env.VITE_BACK_URL}${
+                        src={`${import.meta.env.VITE_BACK_URL_PROD}${
                           detalle.producto.imagen
                         }`}
                         alt={detalle.producto.nombre}

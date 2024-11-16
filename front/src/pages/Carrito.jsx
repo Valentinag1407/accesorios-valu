@@ -146,7 +146,9 @@ export const Carrito = () => {
                   className="flex items-center justify-between mb-4 p-2 border-b"
                 >
                   <img
-                    src={`${import.meta.env.VITE_BACK_URL}/${producto.imagen}`}
+                    src={`${import.meta.env.VITE_BACK_URL_PROD}/${
+                      producto.imagen
+                    }`}
                     alt={producto.nombre}
                     className="w-20 h-20 object-cover rounded"
                   />

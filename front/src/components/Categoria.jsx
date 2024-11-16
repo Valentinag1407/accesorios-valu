@@ -29,7 +29,7 @@ export const Categoria = ({ id, nombre, descripcion }) => {
             <CardProduct
               key={product.id}
               id={product.id}
-              img={`${import.meta.env.VITE_BACK_URL}${product.imagen}`}
+              img={`${import.meta.env.VITE_BACK_URL_PROD}${product.imagen}`}
               title={product.nombre}
               link={`/productos/${product.categoria}/${product.id}/${product.categoria}`}
               precio={product.precio}

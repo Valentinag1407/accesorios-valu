@@ -8,7 +8,6 @@ export const Favoritos = () => {
     const fetchFavoritos = async () => {
       try {
         const response = await api.get("/productos/getFavorites/");
-        console.log(response.data);
         setFavoritos(response.data);
       } catch (error) {
         console.error(error);
@@ -23,21 +22,18 @@ export const Favoritos = () => {
         CONOCE NUESTROS FAVORITOS
       </h1>
       <div className="flex flex-wrap justify-center items-center gap-8 mt-8 px-44">
-        {favoritos.map((favorito) => {
-          console.log(`${import.meta.env.VITE_BACK_URL}${favorito.imagen}`);
-          return (
-            <CardProduct
-              key={favorito.id}
-              id={favorito.id}
-              img={`${import.meta.env.VITE_BACK_URL}${favorito.imagen}`}
-              title={favorito.nombre}
-              link={`/productos/${favorito.categoria.nombre}`}
-              precio={favorito.precio}
-              cantidad={favorito.cantidad}
-              carrito={true}
-            />
-          );
-        })}
+        {favoritos.map((favorito) => (
+          <CardProduct
+            key={favorito.id}
+            id={favorito.id}
+            img={`${import.meta.env.VITE_BACK_URL_PROD}${favorito.imagen}`}
+            title={favorito.nombre}
+            link={`/productos/${favorito.categoria.nombre}`}
+            precio={favorito.precio}
+            cantidad={favorito.cantidad}
+            carrito={true}
+          />
+        ))}
       </div>
     </div>
   );
