@@ -12,7 +12,7 @@ import { Categoria } from "./components/Categoria";
 import { About } from "./pages/About";
 import { Carrito } from "./pages/Carrito";
 import { Pedidos } from "./pages/Pedidos";
-import { Confirmation } from "./pages/Confirmation.JSX";
+import { Confirmation } from "./pages/Confirmation";
 
 function App() {
   const { categories } = useContext(ValuContext);
