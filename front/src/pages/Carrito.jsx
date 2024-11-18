@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { ValuContext } from "../context/ValuContext";
 import { showToast } from "../utils/toast";
 import { LayoutNavFoo } from "../layouts/LayoutNavFoo";
-import { api, baseURL } from "../api/axiosConfig";
+import { api } from "../api/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { formatearDinero } from "../utils/formatDiner";
 import { IoMdAddCircle, IoMdRemoveCircle } from "react-icons/io";
@@ -146,7 +146,9 @@ export const Carrito = () => {
                   className="flex items-center justify-between mb-4 p-2 border-b"
                 >
                   <img
-                    src={`${baseURL}/${producto.imagen}`}
+                    src={`${import.meta.env.VITE_BACK_URL_PROD}${
+                      producto.imagen
+                    }`}
                     alt={producto.nombre}
                     className="w-20 h-20 object-cover rounded"
                   />

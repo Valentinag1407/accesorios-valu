@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { LayoutNavFoo } from "../layouts/LayoutNavFoo";
-import { api, baseURL } from "../api/axiosConfig";
+import { api } from "../api/axiosConfig";
 import { CardProduct } from "../atoms/CardProduct";
 
 export const Categoria = ({ id, nombre, descripcion }) => {
@@ -29,7 +29,7 @@ export const Categoria = ({ id, nombre, descripcion }) => {
             <CardProduct
               key={product.id}
               id={product.id}
-              img={`${baseURL}${product.imagen}`}
+              img={`${import.meta.env.VITE_BACK_URL_PROD}${product.imagen}`}
               title={product.nombre}
               link={`/productos/${product.categoria}/${product.id}/${product.categoria}`}
               precio={product.precio}

@@ -12,7 +12,7 @@ import { Categoria } from "./components/Categoria";
 import { About } from "./pages/About";
 import { Carrito } from "./pages/Carrito";
 import { Pedidos } from "./pages/Pedidos";
-import { Confirmation } from "./pages/Confirmation.JSX";
+import { Confirmation } from "./pages/Confirmation";
 
 function App() {
   const { categories } = useContext(ValuContext);
@@ -38,15 +38,16 @@ function App() {
         />
         <Route path="/confirmation" element={<Confirmation />} />
 
-        {categories.map(({ id, nombre, descripcion }) => (
-          <Route
-            key={id}
-            path={`/productos/${nombre}`}
-            element={
-              <Categoria id={id} nombre={nombre} descripcion={descripcion} />
-            }
-          />
-        ))}
+        {Array.isArray(categories) &&
+          categories.map(({ id, nombre, descripcion }) => (
+            <Route
+              key={id}
+              path={`/productos/${nombre}`}
+              element={
+                <Categoria id={id} nombre={nombre} descripcion={descripcion} />
+              }
+            />
+          ))}
 
         <Route path="/about" element={<About />} />
 

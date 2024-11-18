@@ -1,8 +1,6 @@
 import axios from "axios";
 
-export const baseURL = "http://localhost:8000/";
-
 export const api = axios.create({
-  baseURL: baseURL,
+  baseURL: import.meta.env.VITE_BACK_URL_PROD,
   timeout: 10000,
 });

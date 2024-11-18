@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api, baseURL } from "../api/axiosConfig";
+import { api } from "../api/axiosConfig";
 import { CardProduct } from "../atoms/CardProduct";
 
 export const Favoritos = () => {
@@ -26,7 +26,7 @@ export const Favoritos = () => {
           <CardProduct
             key={favorito.id}
             id={favorito.id}
-            img={`${baseURL}${favorito.imagen}`}
+            img={`${import.meta.env.VITE_BACK_URL_PROD}${favorito.imagen}`}
             title={favorito.nombre}
             link={`/productos/${favorito.categoria.nombre}`}
             precio={favorito.precio}
